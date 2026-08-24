@@ -4,19 +4,31 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Anibal Maldonado – Handyman Services</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#f5a623" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Anibal Handyman" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+  <meta name="description" content="Quality handyman services by Anibal Maldonado. Request in English, Spanish, or Portuguese via WhatsApp." />
+
   <style>
     :root {
       --bg: #0f1117;
       --surface: #1a1d2e;
       --surface2: #222538;
+      --surface3: #2a2e48;
       --accent: #f5a623;
-      --accent2: #e8891a;
+      --accent-dim: rgba(245,166,35,0.12);
       --green: #25d366;
       --green2: #1da851;
       --text: #e8eaf0;
       --text-muted: #9ea3b8;
       --border: #2e3250;
-      --radius: 12px;
+      --radius: 14px;
       --shadow: 0 4px 24px rgba(0,0,0,0.4);
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -32,7 +44,7 @@
     header {
       background: var(--surface);
       border-bottom: 1px solid var(--border);
-      padding: 16px 20px;
+      padding: 14px 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -43,7 +55,7 @@
       z-index: 100;
       box-shadow: 0 2px 16px rgba(0,0,0,0.5);
     }
-    .brand { font-size: 1.15rem; font-weight: 700; color: var(--accent); letter-spacing: 0.3px; }
+    .brand { font-size: 1.1rem; font-weight: 700; color: var(--accent); }
     .brand span { color: var(--text); font-weight: 400; }
     .lang-btns { display: flex; gap: 6px; }
     .lang-btn {
@@ -55,7 +67,7 @@
       cursor: pointer;
       font-size: 0.82rem;
       font-weight: 600;
-      transition: all 0.2s;
+      transition: all 0.18s;
     }
     .lang-btn:hover, .lang-btn.active {
       background: var(--accent);
@@ -66,18 +78,13 @@
     /* ── Hero ── */
     .hero {
       text-align: center;
-      padding: 56px 20px 40px;
+      padding: 48px 20px 36px;
       background: linear-gradient(160deg, #12152a 0%, #0f1117 60%);
     }
-    .hero-icon { font-size: 3.5rem; margin-bottom: 12px; }
-    .hero h1 { font-size: clamp(1.8rem, 5vw, 2.8rem); font-weight: 800; color: var(--text); }
+    .hero-icon { font-size: 3.2rem; margin-bottom: 10px; }
+    .hero h1 { font-size: clamp(1.7rem, 5vw, 2.6rem); font-weight: 800; }
     .hero h1 span { color: var(--accent); }
-    .hero-tagline {
-      margin-top: 10px;
-      font-size: 1.1rem;
-      color: var(--text-muted);
-      font-style: italic;
-    }
+    .hero-tagline { margin-top: 8px; font-size: 1rem; color: var(--text-muted); font-style: italic; }
     .hero-phone {
       margin-top: 18px;
       display: inline-flex;
@@ -88,160 +95,230 @@
       padding: 10px 22px;
       border-radius: 50px;
       font-weight: 700;
-      font-size: 1rem;
+      font-size: 0.97rem;
       text-decoration: none;
       transition: background 0.2s, transform 0.2s;
       box-shadow: 0 4px 16px rgba(37,211,102,0.35);
     }
     .hero-phone:hover { background: var(--green2); transform: translateY(-2px); }
 
-    /* ── Section headers ── */
+    /* ── Section header ── */
     .section-header {
       text-align: center;
-      padding: 36px 20px 16px;
+      padding: 36px 20px 20px;
     }
-    .section-header h2 {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--text);
-    }
-    .section-header p { color: var(--text-muted); margin-top: 6px; font-size: 0.95rem; }
+    .section-header h2 { font-size: 1.4rem; font-weight: 700; }
+    .section-header p { color: var(--text-muted); margin-top: 6px; font-size: 0.9rem; }
 
-    /* ── Services Grid ── */
-    .services-grid {
+    /* ── Category Grid ── */
+    .cat-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 14px;
-      max-width: 1080px;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 10px;
+      max-width: 960px;
       margin: 0 auto;
-      padding: 0 16px 40px;
+      padding: 0 16px 8px;
     }
-    .service-card {
+    .cat-btn {
       background: var(--surface);
-      border: 1px solid var(--border);
+      border: 1.5px solid var(--border);
       border-radius: var(--radius);
-      padding: 18px;
+      padding: 16px 10px;
       cursor: pointer;
-      transition: all 0.2s;
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
+      text-align: center;
+      transition: all 0.18s;
       user-select: none;
+      position: relative;
     }
-    .service-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: var(--shadow); }
-    .service-card.selected {
+    .cat-btn:hover { border-color: var(--accent); background: var(--surface2); transform: translateY(-2px); }
+    .cat-btn.open {
       border-color: var(--accent);
-      background: #201d10;
+      background: var(--accent-dim);
       box-shadow: 0 0 0 2px var(--accent);
     }
-    .service-card .check {
-      width: 22px; height: 22px;
+    .cat-btn.has-selection::after {
+      content: attr(data-count);
+      position: absolute;
+      top: -7px; right: -7px;
+      background: var(--accent);
+      color: #000;
+      font-size: 0.7rem;
+      font-weight: 800;
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .cat-icon { font-size: 1.8rem; margin-bottom: 6px; }
+    .cat-name { font-size: 0.8rem; font-weight: 700; color: var(--text); line-height: 1.3; }
+    .cat-arrow {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+      transition: transform 0.2s;
+    }
+    .cat-btn.open .cat-arrow { transform: rotate(180deg); color: var(--accent); }
+
+    /* ── Expanded Panel ── */
+    .cat-panel-wrap {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+    .cat-panel {
+      display: none;
+      background: var(--surface);
+      border: 1.5px solid var(--accent);
+      border-radius: var(--radius);
+      margin: 8px 0 12px;
+      overflow: hidden;
+      animation: slideDown 0.2s ease;
+    }
+    .cat-panel.open { display: block; }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .panel-header {
+      padding: 14px 18px;
+      background: var(--accent-dim);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .panel-header .ph-icon { font-size: 1.4rem; }
+    .panel-header h3 { font-size: 1rem; font-weight: 700; color: var(--accent); }
+
+    /* ── Subcategory list ── */
+    .sub-list { padding: 12px 16px; }
+    .sub-item { margin-bottom: 10px; }
+    .sub-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 9px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: all 0.15s;
+      user-select: none;
+    }
+    .sub-row:hover { border-color: var(--accent); }
+    .sub-row.checked { border-color: var(--accent); background: #201d10; }
+    .sub-check {
+      width: 20px; height: 20px;
       border: 2px solid var(--border);
       border-radius: 5px;
       flex-shrink: 0;
       display: flex; align-items: center; justify-content: center;
-      font-size: 0.75rem;
-      margin-top: 2px;
-      transition: all 0.2s;
+      font-size: 0.72rem;
+      transition: all 0.15s;
     }
-    .service-card.selected .check {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #000;
+    .sub-row.checked .sub-check { background: var(--accent); border-color: var(--accent); color: #000; }
+    .sub-label { font-size: 0.88rem; font-weight: 600; flex: 1; }
+
+    /* Note field (shows when subcategory is checked) */
+    .sub-note-wrap {
+      display: none;
+      padding: 8px 12px 4px 42px;
     }
-    .service-icon { font-size: 1.6rem; flex-shrink: 0; }
-    .service-info { flex: 1; }
-    .service-info h3 { font-size: 0.95rem; font-weight: 700; color: var(--text); }
-    .service-info p { font-size: 0.82rem; color: var(--text-muted); margin-top: 3px; }
+    .sub-note-wrap.show { display: block; }
+    .sub-note-wrap textarea {
+      width: 100%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 0.84rem;
+      padding: 9px 11px;
+      resize: none;
+      height: 70px;
+      font-family: inherit;
+      transition: border-color 0.15s;
+    }
+    .sub-note-wrap textarea:focus { outline: none; border-color: var(--accent); }
+    .sub-note-wrap textarea::placeholder { color: var(--text-muted); }
+    .note-label {
+      font-size: 0.73rem;
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    /* ── Divider ── */
+    .divider { height: 1px; background: var(--border); max-width: 960px; margin: 4px auto 0; }
 
     /* ── Form ── */
-    .form-section {
-      max-width: 680px;
-      margin: 0 auto;
-      padding: 0 16px 60px;
-    }
+    .form-section { max-width: 680px; margin: 0 auto; padding: 0 16px 60px; }
     .step {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 24px;
-      margin-bottom: 16px;
+      padding: 22px;
+      margin-bottom: 14px;
     }
     .step-label {
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       font-weight: 700;
       color: var(--accent);
       text-transform: uppercase;
       letter-spacing: 1px;
       margin-bottom: 4px;
     }
-    .step h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 16px; }
-    .selected-services-list {
+    .step h3 { font-size: 1rem; font-weight: 700; margin-bottom: 14px; }
+
+    /* Summary of selections */
+    .summary-box {
       background: var(--surface2);
-      border-radius: 8px;
-      padding: 12px 16px;
-      font-size: 0.88rem;
+      border-radius: 9px;
+      padding: 12px 14px;
+      font-size: 0.85rem;
       color: var(--text-muted);
-      min-height: 44px;
-      line-height: 1.8;
+      min-height: 46px;
+      line-height: 1.9;
     }
-    .selected-services-list .service-tag {
-      display: inline-block;
-      background: var(--accent);
-      color: #000;
-      border-radius: 4px;
-      padding: 2px 8px;
-      margin: 2px 4px 2px 0;
-      font-weight: 600;
-      font-size: 0.8rem;
-    }
-    textarea {
+    .sum-cat { display: block; color: var(--accent); font-weight: 700; margin-top: 6px; }
+    .sum-cat:first-child { margin-top: 0; }
+    .sum-sub { display: block; color: var(--text); padding-left: 14px; font-size: 0.82rem; }
+    .sum-note { display: block; padding-left: 24px; color: var(--text-muted); font-size: 0.78rem; font-style: italic; }
+
+    textarea, input {
       width: 100%;
       background: var(--surface2);
       border: 1px solid var(--border);
       border-radius: 8px;
       color: var(--text);
       font-size: 0.92rem;
-      padding: 12px;
-      resize: vertical;
-      min-height: 100px;
+      padding: 10px 13px;
       font-family: inherit;
-      transition: border-color 0.2s;
+      transition: border-color 0.15s;
     }
-    textarea:focus { outline: none; border-color: var(--accent); }
-    textarea::placeholder { color: var(--text-muted); }
+    textarea { resize: vertical; min-height: 88px; }
+    textarea:focus, input:focus { outline: none; border-color: var(--accent); }
+    textarea::placeholder, input::placeholder { color: var(--text-muted); }
+
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     @media(max-width:480px) { .form-row { grid-template-columns: 1fr; } }
-    .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
-    label { font-size: 0.83rem; font-weight: 600; color: var(--text-muted); }
-    input {
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      color: var(--text);
-      font-size: 0.92rem;
-      padding: 10px 14px;
-      font-family: inherit;
-      transition: border-color 0.2s;
-    }
-    input:focus { outline: none; border-color: var(--accent); }
-    input::placeholder { color: var(--text-muted); }
+    .form-group { display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px; }
+    label { font-size: 0.82rem; font-weight: 600; color: var(--text-muted); }
 
-    /* Preview box */
+    /* Preview */
     .preview-box {
       background: var(--surface2);
       border: 1px solid var(--border);
       border-radius: 8px;
-      padding: 14px;
-      font-size: 0.85rem;
+      padding: 12px 14px;
+      font-size: 0.83rem;
       color: var(--text-muted);
       white-space: pre-wrap;
       line-height: 1.7;
-      margin-bottom: 16px;
-      max-height: 200px;
+      margin-bottom: 14px;
+      max-height: 220px;
       overflow-y: auto;
     }
 
+    /* WhatsApp Button */
     .wa-btn {
       display: flex;
       align-items: center;
@@ -261,27 +338,18 @@
       text-decoration: none;
     }
     .wa-btn:hover { background: var(--green2); transform: translateY(-2px); }
-    .wa-icon { font-size: 1.2rem; }
 
     /* ── Footer ── */
     footer {
       background: var(--surface);
       border-top: 1px solid var(--border);
       text-align: center;
-      padding: 24px 20px;
-      font-size: 0.83rem;
+      padding: 22px 20px;
+      font-size: 0.82rem;
       color: var(--text-muted);
     }
     footer a { color: var(--green); text-decoration: none; }
     footer a:hover { text-decoration: underline; }
-
-    /* Divider */
-    .divider {
-      height: 1px;
-      background: var(--border);
-      max-width: 1080px;
-      margin: 0 auto 0;
-    }
   </style>
 </head>
 <body>
@@ -308,40 +376,39 @@
 
 <!-- ── Services Section ── -->
 <div class="section-header">
-  <h2 data-i18n="servicesTitle">Our Services</h2>
-  <p data-i18n="servicesSubtitle">Select the services you need — then send us a message on WhatsApp</p>
+  <h2 data-i18n="servicesTitle">Choose a Service Category</h2>
+  <p data-i18n="servicesSubtitle">Tap a category to see options — add notes to describe each problem</p>
 </div>
 
-<div class="services-grid" id="servicesGrid">
-  <!-- Cards injected by JS -->
-</div>
+<div class="cat-grid" id="catGrid"><!-- injected --></div>
+<div class="cat-panel-wrap" id="panelWrap"><!-- injected --></div>
 
 <div class="divider"></div>
 
 <!-- ── Request Form ── -->
-<div class="section-header" style="padding-top:36px;">
+<div class="section-header" style="padding-top:32px;">
   <h2 data-i18n="requestTitle">Send Your Request</h2>
   <p data-i18n="requestSubtitle">3 easy steps — we'll reply right away on WhatsApp</p>
 </div>
 
 <div class="form-section">
 
-  <!-- Step 1 -->
+  <!-- Step 1 — Summary -->
   <div class="step">
     <div class="step-label" data-i18n="step1label">Step 1</div>
     <h3 data-i18n="step1title">Services Selected</h3>
-    <div class="selected-services-list" id="selectedList">
-      <span data-i18n="noServices">No services selected yet — choose from the list above.</span>
+    <div class="summary-box" id="summaryBox">
+      <span data-i18n="noServices">No services selected yet — choose from the categories above.</span>
     </div>
   </div>
 
-  <!-- Step 2 -->
+  <!-- Step 2 — Job Details -->
   <div class="step">
     <div class="step-label" data-i18n="step2label">Step 2</div>
-    <h3 data-i18n="step2title">Describe the Job</h3>
+    <h3 data-i18n="step2title">Job Details</h3>
     <div class="form-group">
-      <label data-i18n="descLabel">Tell us more about what you need done</label>
-      <textarea id="jobDesc" data-i18n-placeholder="descPlaceholder" placeholder="e.g. Leaky faucet in the bathroom, about 3 years old. Need it fixed ASAP."></textarea>
+      <label data-i18n="addNotesLabel">Any additional notes? (optional)</label>
+      <textarea id="jobDesc" data-i18n-placeholder="addNotesPlaceholder" placeholder="Anything else we should know before arriving?"></textarea>
     </div>
     <div class="form-row">
       <div class="form-group">
@@ -359,7 +426,7 @@
     </div>
   </div>
 
-  <!-- Step 3 -->
+  <!-- Step 3 — Contact & Send -->
   <div class="step">
     <div class="step-label" data-i18n="step3label">Step 3</div>
     <h3 data-i18n="step3title">Your Contact Info</h3>
@@ -373,14 +440,10 @@
         <input type="tel" id="clientPhone" placeholder="(555) 000-0000" />
       </div>
     </div>
-
-    <!-- Message Preview -->
-    <div class="step-label" style="margin-bottom:8px;" data-i18n="previewLabel">Message Preview</div>
+    <div class="step-label" style="margin-bottom:7px;" data-i18n="previewLabel">Message Preview</div>
     <div class="preview-box" id="previewBox">—</div>
-
-    <!-- WhatsApp Button -->
-    <a class="wa-btn" id="waBtn" href="#" target="_blank" onclick="return sendWA(event)">
-      <span class="wa-icon">💬</span>
+    <a class="wa-btn" href="#" target="_blank" onclick="return sendWA(event)">
+      <span>💬</span>
       <span data-i18n="sendWA">Send via WhatsApp</span>
     </a>
   </div>
@@ -389,311 +452,562 @@
 <!-- ── Footer ── -->
 <footer>
   <p>📞 <a href="tel:7735762195">773-576-2195</a> &nbsp;|&nbsp; 💬 <a href="https://wa.me/17735762195" target="_blank">WhatsApp</a></p>
-  <p style="margin-top:8px;" data-i18n="footerText">© 2026 Anibal Maldonado Handyman Services. All rights reserved.</p>
+  <p style="margin-top:7px;" data-i18n="footerText">© 2026 Anibal Maldonado Handyman Services. All rights reserved.</p>
 </footer>
 
 <script>
-// ─────────────────────────────────────────────
+// ═══════════════════════════════════════════
 // TRANSLATIONS
-// ─────────────────────────────────────────────
+// ═══════════════════════════════════════════
 const T = {
   en: {
-    brand: "Anibal Maldonado",
-    tagline: "Quality Work. Reliable Hands.",
-    callNow: "Call or Text: 773-576-2195",
-    servicesTitle: "Our Services",
-    servicesSubtitle: "Select the services you need — then send us a message on WhatsApp",
-    requestTitle: "Send Your Request",
-    requestSubtitle: "3 easy steps — we'll reply right away on WhatsApp",
-    step1label: "Step 1",
-    step1title: "Services Selected",
-    step2label: "Step 2",
-    step2title: "Describe the Job",
-    step3label: "Step 3",
-    step3title: "Your Contact Info",
-    noServices: "No services selected yet — choose from the list above.",
-    descLabel: "Tell us more about what you need done",
-    descPlaceholder: "e.g. Leaky faucet in the bathroom, about 3 years old. Need it fixed ASAP.",
-    dateLabel: "Preferred Date",
-    timeLabel: "Preferred Time",
-    addressLabel: "Address / Location",
-    addressPlaceholder: "Street, City, ZIP",
-    nameLabel: "Your Name",
-    namePlaceholder: "Full Name",
-    phoneLabel: "Your Phone",
-    previewLabel: "Message Preview",
-    sendWA: "Send via WhatsApp",
-    footerText: "© 2026 Anibal Maldonado Handyman Services. All rights reserved.",
-    waIntro: "Hello Anibal! I found you through your website and I'd like to request the following services:",
-    waServices: "🔧 Services Requested",
-    waDesc: "📝 Job Description",
-    waDate: "📅 Preferred Date/Time",
-    waAddress: "📍 Location",
-    waContact: "👤 My Contact Info",
-    waName: "Name",
-    waPhone: "Phone",
+    brand:"Anibal Maldonado", tagline:"Quality Work. Reliable Hands.",
+    callNow:"Call or Text: 773-576-2195",
+    servicesTitle:"Choose a Service Category",
+    servicesSubtitle:"Tap a category to see options — add notes to describe each problem",
+    requestTitle:"Send Your Request", requestSubtitle:"3 easy steps — we'll reply right away on WhatsApp",
+    step1label:"Step 1", step1title:"Services Selected",
+    step2label:"Step 2", step2title:"Job Details",
+    step3label:"Step 3", step3title:"Your Contact Info",
+    noServices:"No services selected yet — choose from the categories above.",
+    addNotesLabel:"Any additional notes? (optional)",
+    addNotesPlaceholder:"Anything else we should know before arriving?",
+    dateLabel:"Preferred Date", timeLabel:"Preferred Time",
+    addressLabel:"Address / Location", addressPlaceholder:"Street, City, ZIP",
+    nameLabel:"Your Name", namePlaceholder:"Full Name",
+    phoneLabel:"Your Phone", previewLabel:"Message Preview",
+    sendWA:"Send via WhatsApp",
+    footerText:"© 2026 Anibal Maldonado Handyman Services. All rights reserved.",
+    noteLabelText:"📝 Notes:",
+    waIntro:"Hello Anibal! I found you through your website and would like to request the following services:",
+    waDate:"📅 Preferred Date/Time", waAddress:"📍 Location",
+    waContact:"👤 My Contact Info", waName:"Name", waPhone:"Phone",
+    waExtra:"📋 Additional Notes",
   },
   es: {
-    brand: "Anibal Maldonado",
-    tagline: "Trabajo de Calidad. Manos Confiables.",
-    callNow: "Llama o Escribe: 773-576-2195",
-    servicesTitle: "Nuestros Servicios",
-    servicesSubtitle: "Selecciona los servicios que necesitas — luego envíanos un mensaje por WhatsApp",
-    requestTitle: "Envía tu Solicitud",
-    requestSubtitle: "3 pasos simples — te respondemos enseguida por WhatsApp",
-    step1label: "Paso 1",
-    step1title: "Servicios Seleccionados",
-    step2label: "Paso 2",
-    step2title: "Describe el Trabajo",
-    step3label: "Paso 3",
-    step3title: "Tu Información de Contacto",
-    noServices: "Aún no has seleccionado servicios — elige de la lista de arriba.",
-    descLabel: "Cuéntanos más sobre lo que necesitas",
-    descPlaceholder: "ej. Grifo que gotea en el baño, tiene unos 3 años. Necesito que lo arreglen lo antes posible.",
-    dateLabel: "Fecha Preferida",
-    timeLabel: "Hora Preferida",
-    addressLabel: "Dirección / Ubicación",
-    addressPlaceholder: "Calle, Ciudad, Código Postal",
-    nameLabel: "Tu Nombre",
-    namePlaceholder: "Nombre Completo",
-    phoneLabel: "Tu Teléfono",
-    previewLabel: "Vista Previa del Mensaje",
-    sendWA: "Enviar por WhatsApp",
-    footerText: "© 2026 Anibal Maldonado Servicios de Handyman. Todos los derechos reservados.",
-    waIntro: "¡Hola Anibal! Te encontré en tu sitio web y me gustaría solicitar los siguientes servicios:",
-    waServices: "🔧 Servicios Solicitados",
-    waDesc: "📝 Descripción del Trabajo",
-    waDate: "📅 Fecha/Hora Preferida",
-    waAddress: "📍 Ubicación",
-    waContact: "👤 Mi Información de Contacto",
-    waName: "Nombre",
-    waPhone: "Teléfono",
+    brand:"Anibal Maldonado", tagline:"Trabajo de Calidad. Manos Confiables.",
+    callNow:"Llama o Escribe: 773-576-2195",
+    servicesTitle:"Elige una Categoría de Servicio",
+    servicesSubtitle:"Toca una categoría para ver opciones — agrega notas para describir cada problema",
+    requestTitle:"Envía tu Solicitud", requestSubtitle:"3 pasos simples — te respondemos enseguida por WhatsApp",
+    step1label:"Paso 1", step1title:"Servicios Seleccionados",
+    step2label:"Paso 2", step2title:"Detalles del Trabajo",
+    step3label:"Paso 3", step3title:"Tu Información de Contacto",
+    noServices:"Aún no has seleccionado servicios — elige de las categorías de arriba.",
+    addNotesLabel:"¿Alguna nota adicional? (opcional)",
+    addNotesPlaceholder:"¿Algo más que debemos saber antes de llegar?",
+    dateLabel:"Fecha Preferida", timeLabel:"Hora Preferida",
+    addressLabel:"Dirección / Ubicación", addressPlaceholder:"Calle, Ciudad, Código Postal",
+    nameLabel:"Tu Nombre", namePlaceholder:"Nombre Completo",
+    phoneLabel:"Tu Teléfono", previewLabel:"Vista Previa del Mensaje",
+    sendWA:"Enviar por WhatsApp",
+    footerText:"© 2026 Anibal Maldonado Servicios de Handyman. Todos los derechos reservados.",
+    noteLabelText:"📝 Notas:",
+    waIntro:"¡Hola Anibal! Te encontré en tu sitio web y me gustaría solicitar los siguientes servicios:",
+    waDate:"📅 Fecha/Hora Preferida", waAddress:"📍 Ubicación",
+    waContact:"👤 Mi Información de Contacto", waName:"Nombre", waPhone:"Teléfono",
+    waExtra:"📋 Notas Adicionales",
   },
   pt: {
-    brand: "Anibal Maldonado",
-    tagline: "Trabalho de Qualidade. Mãos Confiáveis.",
-    callNow: "Ligue ou Escreva: 773-576-2195",
-    servicesTitle: "Nossos Serviços",
-    servicesSubtitle: "Selecione os serviços que precisa — depois nos envie uma mensagem pelo WhatsApp",
-    requestTitle: "Envie seu Pedido",
-    requestSubtitle: "3 passos simples — respondemos imediatamente pelo WhatsApp",
-    step1label: "Passo 1",
-    step1title: "Serviços Selecionados",
-    step2label: "Passo 2",
-    step2title: "Descreva o Trabalho",
-    step3label: "Passo 3",
-    step3title: "Suas Informações de Contato",
-    noServices: "Nenhum serviço selecionado — escolha na lista acima.",
-    descLabel: "Conte-nos mais sobre o que precisa",
-    descPlaceholder: "ex. Torneira vazando no banheiro, tem uns 3 anos. Preciso consertar o mais rápido possível.",
-    dateLabel: "Data Preferida",
-    timeLabel: "Hora Preferida",
-    addressLabel: "Endereço / Localização",
-    addressPlaceholder: "Rua, Cidade, CEP",
-    nameLabel: "Seu Nome",
-    namePlaceholder: "Nome Completo",
-    phoneLabel: "Seu Telefone",
-    previewLabel: "Prévia da Mensagem",
-    sendWA: "Enviar pelo WhatsApp",
-    footerText: "© 2026 Anibal Maldonado Serviços de Handyman. Todos os direitos reservados.",
-    waIntro: "Olá Anibal! Encontrei você pelo site e gostaria de solicitar os seguintes serviços:",
-    waServices: "🔧 Serviços Solicitados",
-    waDesc: "📝 Descrição do Trabalho",
-    waDate: "📅 Data/Hora Preferida",
-    waAddress: "📍 Localização",
-    waContact: "👤 Minhas Informações de Contato",
-    waName: "Nome",
-    waPhone: "Telefone",
+    brand:"Anibal Maldonado", tagline:"Trabalho de Qualidade. Mãos Confiáveis.",
+    callNow:"Ligue ou Escreva: 773-576-2195",
+    servicesTitle:"Escolha uma Categoria de Serviço",
+    servicesSubtitle:"Toque numa categoria para ver as opções — adicione notas para descrever cada problema",
+    requestTitle:"Envie seu Pedido", requestSubtitle:"3 passos simples — respondemos imediatamente pelo WhatsApp",
+    step1label:"Passo 1", step1title:"Serviços Selecionados",
+    step2label:"Passo 2", step2title:"Detalhes do Trabalho",
+    step3label:"Passo 3", step3title:"Suas Informações de Contato",
+    noServices:"Nenhum serviço selecionado — escolha nas categorias acima.",
+    addNotesLabel:"Alguma nota adicional? (opcional)",
+    addNotesPlaceholder:"Tem mais alguma coisa que devemos saber antes de chegar?",
+    dateLabel:"Data Preferida", timeLabel:"Hora Preferida",
+    addressLabel:"Endereço / Localização", addressPlaceholder:"Rua, Cidade, CEP",
+    nameLabel:"Seu Nome", namePlaceholder:"Nome Completo",
+    phoneLabel:"Seu Telefone", previewLabel:"Prévia da Mensagem",
+    sendWA:"Enviar pelo WhatsApp",
+    footerText:"© 2026 Anibal Maldonado Serviços de Handyman. Todos os direitos reservados.",
+    noteLabelText:"📝 Observações:",
+    waIntro:"Olá Anibal! Encontrei você pelo site e gostaria de solicitar os seguintes serviços:",
+    waDate:"📅 Data/Hora Preferida", waAddress:"📍 Localização",
+    waContact:"👤 Minhas Informações de Contato", waName:"Nome", waPhone:"Telefone",
+    waExtra:"📋 Observações Adicionais",
   }
 };
 
-// ─────────────────────────────────────────────
-// SERVICES DATA (EN / ES / PT)
-// ─────────────────────────────────────────────
-const services = [
+// ═══════════════════════════════════════════
+// SERVICE CATEGORIES + SUBCATEGORIES
+// ═══════════════════════════════════════════
+const categories = [
   {
-    icon: "🚿",
-    en: { name: "Minor Plumbing Repairs", desc: "Leaky faucets, dripping pipes, toilet repairs, drain unclogging" },
-    es: { name: "Reparaciones Menores de Plomería", desc: "Grifos con goteras, tuberías, reparación de inodoros, desatasco de desagües" },
-    pt: { name: "Reparos Hidráulicos Menores", desc: "Torneiras com vazamento, canos, reparos em vasos sanitários, desentupimento" },
+    id:'plumbing', icon:'🚿',
+    en:{ name:'Plumbing' },
+    es:{ name:'Plomería' },
+    pt:{ name:'Hidráulica' },
+    subs:[
+      { en:{name:'Leaky faucet',     ph:'Which faucet? Kitchen, bathroom, etc.'},
+        es:{name:'Grifo con goteras', ph:'¿Cuál grifo? ¿Cocina, baño, etc.?'},
+        pt:{name:'Torneira vazando',  ph:'Qual torneira? Cozinha, banheiro, etc.'} },
+      { en:{name:'Clogged drain',    ph:'Which drain is clogged?'},
+        es:{name:'Desagüe tapado',   ph:'¿Cuál desagüe está tapado?'},
+        pt:{name:'Ralo entupido',    ph:'Qual ralo está entupido?'} },
+      { en:{name:'Running / broken toilet', ph:'Describe the issue with the toilet'},
+        es:{name:'Inodoro roto / corriendo', ph:'Describe el problema con el inodoro'},
+        pt:{name:'Vaso sanitário com defeito', ph:'Descreva o problema com o vaso'} },
+      { en:{name:'Pipe repair',      ph:'Where is the pipe issue located?'},
+        es:{name:'Reparación de tubería', ph:'¿Dónde está el problema con la tubería?'},
+        pt:{name:'Reparo de canos',  ph:'Onde está o problema com os canos?'} },
+      { en:{name:'Shut-off valve',   ph:'Which valve needs replacement?'},
+        es:{name:'Válvula de paso',  ph:'¿Cuál válvula necesita reemplazo?'},
+        pt:{name:'Registro de água', ph:'Qual registro precisa ser trocado?'} },
+    ]
   },
   {
-    icon: "🔌",
-    en: { name: "Minor Electrical Work", desc: "Replace outlets, switches, light fixtures, ceiling fans, and smoke detectors" },
-    es: { name: "Trabajos Eléctricos Menores", desc: "Cambio de enchufes, interruptores, lámparas, ventiladores de techo y detectores" },
-    pt: { name: "Serviços Elétricos Menores", desc: "Troca de tomadas, interruptores, luminárias, ventiladores e detectores de fumaça" },
+    id:'electrical', icon:'🔌',
+    en:{ name:'Electrical' },
+    es:{ name:'Electricidad' },
+    pt:{ name:'Elétrica' },
+    subs:[
+      { en:{name:'Outlet / switch replacement', ph:'How many? Which rooms?'},
+        es:{name:'Cambio de enchufe / interruptor', ph:'¿Cuántos? ¿En qué habitaciones?'},
+        pt:{name:'Troca de tomada / interruptor', ph:'Quantos? Em quais cômodos?'} },
+      { en:{name:'Light fixture installation', ph:'What type of fixture? (ceiling, wall, etc.)'},
+        es:{name:'Instalación de luminaria', ph:'¿Qué tipo? (techo, pared, etc.)'},
+        pt:{name:'Instalação de luminária', ph:'Que tipo? (teto, parede, etc.)'} },
+      { en:{name:'Ceiling fan installation', ph:'Do you have the fan already? Any existing wiring?'},
+        es:{name:'Ventilador de techo', ph:'¿Ya tienes el ventilador? ¿Hay cableado existente?'},
+        pt:{name:'Ventilador de teto', ph:'Já tem o ventilador? Há fiação existente?'} },
+      { en:{name:'Smoke / CO detector', ph:'How many units need to be installed?'},
+        es:{name:'Detector de humo / CO', ph:'¿Cuántas unidades necesitan instalarse?'},
+        pt:{name:'Detector de fumaça / CO', ph:'Quantas unidades precisam ser instaladas?'} },
+      { en:{name:'GFCI / dimmer switch', ph:'Which location? (bathroom, kitchen, etc.)'},
+        es:{name:'GFCI / dimmer', ph:'¿Cuál ubicación? (baño, cocina, etc.)'},
+        pt:{name:'GFCI / dimmer', ph:'Qual local? (banheiro, cozinha, etc.)'} },
+    ]
   },
   {
-    icon: "🎨",
-    en: { name: "Interior & Exterior Painting", desc: "Walls, ceilings, trim, doors, fences — prep, primer, and paint" },
-    es: { name: "Pintura Interior y Exterior", desc: "Paredes, techos, molduras, puertas, cercas — preparación, imprimación y pintura" },
-    pt: { name: "Pintura Interna e Externa", desc: "Paredes, tetos, rodapés, portas, cercas — preparação, primer e pintura" },
+    id:'painting', icon:'🎨',
+    en:{ name:'Painting' },
+    es:{ name:'Pintura' },
+    pt:{ name:'Pintura' },
+    subs:[
+      { en:{name:'Interior walls & ceilings', ph:'Which rooms? Approximate square footage?'},
+        es:{name:'Paredes y techos interiores', ph:'¿Qué habitaciones? ¿Metros cuadrados aproximados?'},
+        pt:{name:'Paredes e tetos internos', ph:'Quais cômodos? Metragem aproximada?'} },
+      { en:{name:'Exterior walls / siding',  ph:'What areas? Any prep / repairs needed?'},
+        es:{name:'Paredes exteriores / revestimiento', ph:'¿Qué áreas? ¿Necesita preparación?'},
+        pt:{name:'Paredes externas / revestimento', ph:'Quais áreas? Precisa de preparação?'} },
+      { en:{name:'Trim, doors & baseboards', ph:'Interior or exterior? How many doors?'},
+        es:{name:'Molduras, puertas y rodapiés', ph:'¿Interior o exterior? ¿Cuántas puertas?'},
+        pt:{name:'Rodapés, portas e molduras', ph:'Interno ou externo? Quantas portas?'} },
+      { en:{name:'Fence / deck painting',    ph:'What material? Approx size?'},
+        es:{name:'Cerca / terraza',           ph:'¿Qué material? ¿Tamaño aproximado?'},
+        pt:{name:'Cerca / deck',              ph:'Que material? Tamanho aproximado?'} },
+    ]
   },
   {
-    icon: "🪹",
-    en: { name: "Drywall Repair & Patching", desc: "Holes, cracks, water damage, texture matching, and finishing" },
-    es: { name: "Reparación de Drywall", desc: "Agujeros, grietas, daños por agua, igualación de textura y acabado" },
-    pt: { name: "Reparo de Drywall", desc: "Furos, rachaduras, danos por água, nivelamento de textura e acabamento" },
+    id:'drywall', icon:'🪹',
+    en:{ name:'Drywall' },
+    es:{ name:'Drywall' },
+    pt:{ name:'Drywall' },
+    subs:[
+      { en:{name:'Small hole patching',  ph:'Size of hole? How many holes?'},
+        es:{name:'Parche de agujero pequeño', ph:'¿Tamaño del agujero? ¿Cuántos?'},
+        pt:{name:'Remendo de furo pequeno', ph:'Tamanho do furo? Quantos furos?'} },
+      { en:{name:'Large section repair', ph:'How large is the damaged section?'},
+        es:{name:'Reparación de sección grande', ph:'¿Qué tan grande es la sección dañada?'},
+        pt:{name:'Reparo de seção grande', ph:'Qual o tamanho da seção danificada?'} },
+      { en:{name:'Crack repair',         ph:'Where is the crack? Wall or ceiling?'},
+        es:{name:'Reparación de grietas', ph:'¿Dónde está la grieta? ¿Pared o techo?'},
+        pt:{name:'Reparo de rachaduras',  ph:'Onde está a rachadura? Parede ou teto?'} },
+      { en:{name:'Water damage repair',  ph:'What caused the damage? Has the leak been fixed?'},
+        es:{name:'Daño por agua',         ph:'¿Qué causó el daño? ¿Ya se arregló la fuga?'},
+        pt:{name:'Dano por água',         ph:'O que causou o dano? O vazamento já foi corrigido?'} },
+      { en:{name:'Texture matching',     ph:'Describe the existing texture (orange peel, popcorn, etc.)'},
+        es:{name:'Igualación de textura', ph:'Describe la textura existente (piel de naranja, palomitas, etc.)'},
+        pt:{name:'Nivelamento de textura', ph:'Descreva a textura existente (casca de laranja, pipoca, etc.)'} },
+    ]
   },
   {
-    icon: "🚪",
-    en: { name: "Door & Window Repairs", desc: "Adjust, repair, or replace doors, windows, locks, hinges, and weatherstripping" },
-    es: { name: "Reparación de Puertas y Ventanas", desc: "Ajuste, reparación o sustitución de puertas, ventanas, cerraduras y burletes" },
-    pt: { name: "Reparos em Portas e Janelas", desc: "Ajuste, reparo ou substituição de portas, janelas, fechaduras e vedações" },
+    id:'doors', icon:'🚪',
+    en:{ name:'Doors & Windows' },
+    es:{ name:'Puertas y Ventanas' },
+    pt:{ name:'Portas e Janelas' },
+    subs:[
+      { en:{name:'Door alignment / sticking', ph:'Which door? Interior or exterior?'},
+        es:{name:'Puerta desalineada / trabada', ph:'¿Cuál puerta? ¿Interior o exterior?'},
+        pt:{name:'Porta desalinhada / travada', ph:'Qual porta? Interna ou externa?'} },
+      { en:{name:'Lock & deadbolt replacement', ph:'What type of lock needed?'},
+        es:{name:'Cerradura y cerrojo',        ph:'¿Qué tipo de cerradura se necesita?'},
+        pt:{name:'Fechadura e ferrolho',        ph:'Que tipo de fechadura é necessária?'} },
+      { en:{name:'Weatherstripping',           ph:'Which door or window needs new weatherstrip?'},
+        es:{name:'Burlete',                    ph:'¿Cuál puerta o ventana necesita burlete?'},
+        pt:{name:'Vedação de porta/janela',    ph:'Qual porta ou janela precisa de vedação?'} },
+      { en:{name:'Window screen repair',       ph:'How many screens? Size?'},
+        es:{name:'Reparación de tela de ventana', ph:'¿Cuántas telas? ¿Tamaño?'},
+        pt:{name:'Reparo de tela de janela',   ph:'Quantas telas? Tamanho?'} },
+      { en:{name:'Window frame repair',        ph:'What type of damage?'},
+        es:{name:'Marco de ventana dañado',    ph:'¿Qué tipo de daño?'},
+        pt:{name:'Reparo de caixilho',         ph:'Que tipo de dano?'} },
+    ]
   },
   {
-    icon: "🪵",
-    en: { name: "Flooring Installation", desc: "Tile, laminate, vinyl plank, hardwood — installation and repair" },
-    es: { name: "Instalación de Pisos", desc: "Baldosas, laminados, vinílicos, madera — instalación y reparación" },
-    pt: { name: "Instalação de Pisos", desc: "Cerâmica, laminado, vinílico, madeira — instalação e reparo" },
+    id:'flooring', icon:'🪵',
+    en:{ name:'Flooring' },
+    es:{ name:'Pisos' },
+    pt:{ name:'Pisos' },
+    subs:[
+      { en:{name:'Tile installation',          ph:'Room size? Tile size already chosen?'},
+        es:{name:'Instalación de baldosas',    ph:'¿Tamaño del cuarto? ¿Ya elegiste las baldosas?'},
+        pt:{name:'Instalação de cerâmica',     ph:'Tamanho do cômodo? Já escolheu as peças?'} },
+      { en:{name:'Laminate / vinyl plank',     ph:'Approx square footage? Material on hand?'},
+        es:{name:'Laminado / vinílico',        ph:'¿Metros cuadrados aprox.? ¿Tienes el material?'},
+        pt:{name:'Laminado / vinílico',        ph:'Metragem aprox.? Tem o material em mãos?'} },
+      { en:{name:'Hardwood repair',            ph:'What type of damage? (scratches, gaps, warping)'},
+        es:{name:'Reparación de madera',       ph:'¿Qué tipo de daño? (rasguños, huecos, combado)'},
+        pt:{name:'Reparo de madeira',          ph:'Que tipo de dano? (arranhões, frestas, empenamento)'} },
+      { en:{name:'Grout repair',               ph:'Which area? Bathroom, kitchen, etc.?'},
+        es:{name:'Reparación de lechada',      ph:'¿Qué área? ¿Baño, cocina, etc.?'},
+        pt:{name:'Reparo de rejunte',          ph:'Qual área? Banheiro, cozinha, etc.?'} },
+      { en:{name:'Subfloor repair',            ph:'What type of subfloor issue?'},
+        es:{name:'Suelo estructural',          ph:'¿Qué tipo de problema en el suelo?'},
+        pt:{name:'Reparo de contrapiso',       ph:'Qual tipo de problema no contrapiso?'} },
+    ]
   },
   {
-    icon: "📺",
-    en: { name: "TV & Shelf Mounting", desc: "TV wall mounts, floating shelves, cabinets, mirrors, and artwork" },
-    es: { name: "Instalación de TV y Estantes", desc: "Soportes para TV, estantes flotantes, gabinetes, espejos y cuadros" },
-    pt: { name: "Instalação de TV e Prateleiras", desc: "Suporte de TV, prateleiras flutuantes, gabinetes, espelhos e quadros" },
+    id:'mounting', icon:'📺',
+    en:{ name:'Mounting' },
+    es:{ name:'Instalaciones' },
+    pt:{ name:'Instalações' },
+    subs:[
+      { en:{name:'TV wall mount',       ph:'TV size? Wall type (drywall, concrete, brick)?'},
+        es:{name:'Soporte de TV',       ph:'¿Tamaño del TV? ¿Tipo de pared?'},
+        pt:{name:'Suporte de TV',       ph:'Tamanho da TV? Tipo de parede?'} },
+      { en:{name:'Floating shelves',    ph:'How many? Approx size and weight capacity needed?'},
+        es:{name:'Estantes flotantes',  ph:'¿Cuántos? ¿Tamaño y capacidad de peso?'},
+        pt:{name:'Prateleiras flutuantes', ph:'Quantas? Tamanho e capacidade de peso?'} },
+      { en:{name:'Mirrors & artwork',   ph:'Size and weight? Wall type?'},
+        es:{name:'Espejos y cuadros',   ph:'¿Tamaño y peso? ¿Tipo de pared?'},
+        pt:{name:'Espelhos e quadros',  ph:'Tamanho e peso? Tipo de parede?'} },
+      { en:{name:'Curtain rods',        ph:'How many windows? Rod type already purchased?'},
+        es:{name:'Barras de cortinas',  ph:'¿Cuántas ventanas? ¿Ya compraste las barras?'},
+        pt:{name:'Varões de cortina',   ph:'Quantas janelas? Já comprou os varões?'} },
+      { en:{name:'Grab bars / safety',  ph:'Bathroom or other location? How many?'},
+        es:{name:'Barras de apoyo',     ph:'¿Baño u otra ubicación? ¿Cuántas?'},
+        pt:{name:'Barras de apoio',     ph:'Banheiro ou outro local? Quantas?'} },
+    ]
   },
   {
-    icon: "🛋️",
-    en: { name: "Furniture Assembly", desc: "IKEA, Amazon, Wayfair and other flat-pack furniture assembled quickly" },
-    es: { name: "Montaje de Muebles", desc: "Muebles de IKEA, Amazon, Wayfair y otras marcas armados rápidamente" },
-    pt: { name: "Montagem de Móveis", desc: "Móveis da IKEA, Amazon, Wayfair e outros montados rapidamente" },
+    id:'assembly', icon:'🛋️',
+    en:{ name:'Assembly' },
+    es:{ name:'Montaje' },
+    pt:{ name:'Montagem' },
+    subs:[
+      { en:{name:'IKEA / flat-pack furniture', ph:'What pieces? Do you have all the parts?'},
+        es:{name:'Muebles IKEA / flat-pack',   ph:'¿Qué piezas? ¿Tienes todas las partes?'},
+        pt:{name:'Móveis IKEA / flat-pack',    ph:'Quais peças? Tem todas as partes?'} },
+      { en:{name:'Outdoor / patio furniture',  ph:'What type? Table, chairs, lounge set?'},
+        es:{name:'Muebles de exterior',        ph:'¿Qué tipo? Mesa, sillas, juego de jardín?'},
+        pt:{name:'Móveis de área externa',     ph:'Que tipo? Mesa, cadeiras, conjunto?'} },
+      { en:{name:'Office furniture',           ph:'Desk, chair, shelving unit?'},
+        es:{name:'Muebles de oficina',         ph:'¿Escritorio, silla, estantería?'},
+        pt:{name:'Móveis de escritório',       ph:'Mesa, cadeira, estante?'} },
+      { en:{name:'Gym / exercise equipment',   ph:'What equipment? (treadmill, rack, bike, etc.)'},
+        es:{name:'Equipo de ejercicio',        ph:'¿Qué equipo? (caminadora, rack, bicicleta, etc.)'},
+        pt:{name:'Equipamento de academia',    ph:'Qual equipamento? (esteira, rack, bike, etc.)'} },
+    ]
   },
   {
-    icon: "🏠",
-    en: { name: "Caulking & Weatherstripping", desc: "Seal windows, doors, bathtubs, showers, and exterior gaps" },
-    es: { name: "Sellado y Burletes", desc: "Sellar ventanas, puertas, bañeras, duchas y grietas exteriores" },
-    pt: { name: "Calafetagem e Vedação", desc: "Vedar janelas, portas, banheiras, chuveiros e frestas externas" },
+    id:'caulking', icon:'🏠',
+    en:{ name:'Caulking & Sealing' },
+    es:{ name:'Sellado' },
+    pt:{ name:'Calafetagem' },
+    subs:[
+      { en:{name:'Bathtub / shower caulk',    ph:'Is existing caulk moldy or cracked?'},
+        es:{name:'Sellado de bañera / ducha', ph:'¿Está el sellado con moho o agrietado?'},
+        pt:{name:'Rejunte de banheira/chuveiro', ph:'O rejunte atual está com mofo ou rachado?'} },
+      { en:{name:'Window & door sealing',     ph:'How many windows/doors?'},
+        es:{name:'Sellado de ventanas y puertas', ph:'¿Cuántas ventanas y puertas?'},
+        pt:{name:'Vedação de janelas e portas', ph:'Quantas janelas e portas?'} },
+      { en:{name:'Exterior gap sealing',      ph:'Where are the gaps? (foundation, siding, etc.)'},
+        es:{name:'Sellado exterior',           ph:'¿Dónde están las grietas? (cimientos, revestimiento)'},
+        pt:{name:'Vedação externa',            ph:'Onde estão as frestas? (fundação, revestimento, etc.)'} },
+    ]
   },
   {
-    icon: "🪣",
-    en: { name: "Gutter Cleaning & Repair", desc: "Clean, realign, and repair gutters and downspouts" },
-    es: { name: "Limpieza y Reparación de Canaletas", desc: "Limpieza, realineación y reparación de canaletas y bajantes" },
-    pt: { name: "Limpeza e Reparo de Calhas", desc: "Limpeza, realinhamento e reparo de calhas e condutores de água" },
+    id:'gutters', icon:'🪣',
+    en:{ name:'Gutters' },
+    es:{ name:'Canaletas' },
+    pt:{ name:'Calhas' },
+    subs:[
+      { en:{name:'Gutter cleaning',        ph:'How long is the gutter run? Single or two story?'},
+        es:{name:'Limpieza de canaletas',  ph:'¿Qué longitud? ¿Una o dos plantas?'},
+        pt:{name:'Limpeza de calhas',      ph:'Qual o comprimento? Térrea ou sobrado?'} },
+      { en:{name:'Gutter repair / realignment', ph:'What is the issue? Sagging, leaking, pulling away?'},
+        es:{name:'Reparación de canaletas', ph:'¿Cuál es el problema? ¿Combada, filtra, se despega?'},
+        pt:{name:'Reparo de calhas',        ph:'Qual o problema? Saindo da parede, vazando?'} },
+      { en:{name:'Downspout repair',        ph:'Is it clogged, broken, or disconnected?'},
+        es:{name:'Reparación de bajante',   ph:'¿Está tapado, roto o desconectado?'},
+        pt:{name:'Reparo de condutor',      ph:'Está entupido, quebrado ou desconectado?'} },
+    ]
   },
   {
-    icon: "🔩",
-    en: { name: "Cabinet & Hardware Installation", desc: "Kitchen/bath cabinets, drawer pulls, handles, hinges, and towel bars" },
-    es: { name: "Instalación de Gabinetes y Herrajes", desc: "Gabinetes de cocina/baño, tiradores, bisagras y toalleros" },
-    pt: { name: "Instalação de Armários e Ferragens", desc: "Armários de cozinha/banheiro, puxadores, dobradiças e toalheiros" },
+    id:'tile', icon:'🧱',
+    en:{ name:'Tile & Grout' },
+    es:{ name:'Azulejos' },
+    pt:{ name:'Azulejos' },
+    subs:[
+      { en:{name:'Backsplash installation', ph:'Kitchen or bathroom? Size? Tile chosen?'},
+        es:{name:'Instalación de salpicadero', ph:'¿Cocina o baño? ¿Tamaño? ¿Azulejo elegido?'},
+        pt:{name:'Instalação de azulejo',     ph:'Cozinha ou banheiro? Tamanho? Azulejo escolhido?'} },
+      { en:{name:'Broken tile replacement', ph:'How many tiles? Do you have replacements?'},
+        es:{name:'Reemplazo de baldosas rotas', ph:'¿Cuántas? ¿Tienes de repuesto?'},
+        pt:{name:'Troca de azulejo quebrado', ph:'Quantos? Você tem peças de reposição?'} },
+      { en:{name:'Regrout / grout refresh', ph:'Which area? Bathroom walls, floor, kitchen?'},
+        es:{name:'Relechado',               ph:'¿Qué área? Paredes de baño, piso, cocina?'},
+        pt:{name:'Rejuntamento',            ph:'Qual área? Banheiro, piso, cozinha?'} },
+    ]
   },
   {
-    icon: "🧱",
-    en: { name: "Tile Work & Grouting", desc: "Backsplash, bathroom tile, regrout, and caulk repairs" },
-    es: { name: "Trabajo con Azulejos y Lechada", desc: "Salpicaderos, azulejos de baño, relechado y sellado" },
-    pt: { name: "Revestimento e Rejunte", desc: "Azulejo de cozinha/banheiro, rejuntamento e calafetagem" },
+    id:'exterior', icon:'🌿',
+    en:{ name:'Exterior Cleaning' },
+    es:{ name:'Limpieza Exterior' },
+    pt:{ name:'Limpeza Externa' },
+    subs:[
+      { en:{name:'Pressure wash – driveway',   ph:'Approx. size of the driveway?'},
+        es:{name:'Lavado a presión – entrada',  ph:'¿Tamaño aprox. de la entrada?'},
+        pt:{name:'Lavagem – calçada/garagem',   ph:'Tamanho aproximado da calçada?'} },
+      { en:{name:'Pressure wash – deck/patio', ph:'Approx. size? Wood, concrete, or pavers?'},
+        es:{name:'Lavado a presión – terraza',  ph:'¿Tamaño? ¿Madera, concreto o adoquín?'},
+        pt:{name:'Lavagem – deck/pátio',        ph:'Tamanho? Madeira, concreto ou pedra?'} },
+      { en:{name:'Pressure wash – house siding', ph:'How many stories? Full exterior or partial?'},
+        es:{name:'Lavado – fachada de casa',    ph:'¿Cuántas plantas? ¿Todo o parcial?'},
+        pt:{name:'Lavagem – fachada da casa',   ph:'Quantos andares? Total ou parcial?'} },
+      { en:{name:'Fence cleaning',             ph:'What material? (wood, vinyl, chain-link)'},
+        es:{name:'Limpieza de cerca',           ph:'¿Qué material? (madera, vinilo, eslabones)'},
+        pt:{name:'Limpeza de cerca',            ph:'Que material? (madeira, PVC, arame)'} },
+    ]
   },
   {
-    icon: "🌿",
-    en: { name: "Pressure Washing", desc: "Driveways, sidewalks, decks, patios, fences, and exterior walls" },
-    es: { name: "Lavado a Presión", desc: "Entradas, aceras, terrazas, patios, cercas y paredes exteriores" },
-    pt: { name: "Lavagem de Alta Pressão", desc: "Calçadas, decks, pátios, cercas e paredes externas" },
+    id:'bathroom', icon:'🛁',
+    en:{ name:'Bathroom' },
+    es:{ name:'Baño' },
+    pt:{ name:'Banheiro' },
+    subs:[
+      { en:{name:'Toilet replacement',       ph:'Do you have the new toilet already?'},
+        es:{name:'Reemplazo de inodoro',     ph:'¿Ya tienes el inodoro nuevo?'},
+        pt:{name:'Troca de vaso sanitário',  ph:'Já tem o vaso sanitário novo?'} },
+      { en:{name:'Faucet replacement',       ph:'Bathroom sink or tub faucet? Do you have the new faucet?'},
+        es:{name:'Reemplazo de grifo',       ph:'¿Lavabo o bañera? ¿Ya tienes el grifo?'},
+        pt:{name:'Troca de torneira',        ph:'Pia ou banheira? Já tem a torneira nova?'} },
+      { en:{name:'Showerhead replacement',   ph:'Standard or rain shower? Already purchased?'},
+        es:{name:'Cabezal de ducha',         ph:'¿Estándar o lluvia? ¿Ya comprado?'},
+        pt:{name:'Troca de chuveiro',        ph:'Padrão ou chuveiro chuva? Já comprou?'} },
+      { en:{name:'Vanity installation',      ph:'Do you have the new vanity? What size?'},
+        es:{name:'Instalación de vanidad',   ph:'¿Ya tienes la vanidad? ¿Qué tamaño?'},
+        pt:{name:'Instalação de gabinete',   ph:'Já tem o gabinete? Qual tamanho?'} },
+      { en:{name:'Exhaust fan installation', ph:'New install or replacement? Do you have the fan?'},
+        es:{name:'Ventilador de extracción', ph:'¿Instalación nueva o reemplazo? ¿Tienes el ventilador?'},
+        pt:{name:'Exaustor de banheiro',     ph:'Novo ou troca? Já tem o exaustor?'} },
+    ]
   },
   {
-    icon: "🔧",
-    en: { name: "Fence Repair & Installation", desc: "Wood, vinyl, or chain-link fence repair, post replacement, and installation" },
-    es: { name: "Reparación e Instalación de Cercas", desc: "Reparación de cercas de madera, vinilo o eslabones, y postes" },
-    pt: { name: "Reparo e Instalação de Cercas", desc: "Cercas de madeira, PVC ou arame farpado — reparo e instalação de mourões" },
-  },
-  {
-    icon: "🪟",
-    en: { name: "Screen & Window Repair", desc: "Replace window screens, fix broken panes, repair window frames" },
-    es: { name: "Reparación de Telas y Ventanas", desc: "Reemplazar mallas de ventana, arreglar cristales rotos y marcos" },
-    pt: { name: "Reparo de Telas e Janelas", desc: "Troca de telas de janela, vidros quebrados e frames danificados" },
-  },
-  {
-    icon: "🛁",
-    en: { name: "Bathroom Repairs & Upgrades", desc: "Toilet, faucet, showerhead replacement and minor bathroom improvements" },
-    es: { name: "Reparaciones de Baño", desc: "Inodoro, grifo, cabezal de ducha y mejoras menores de baño" },
-    pt: { name: "Reparos no Banheiro", desc: "Substituição de vaso sanitário, torneira, chuveiro e pequenas reformas" },
-  },
-  {
-    icon: "🏡",
-    en: { name: "General Home Repairs", desc: "Miscellaneous fixes — squeaky floors, sticking doors, patching, and more" },
-    es: { name: "Reparaciones Generales del Hogar", desc: "Pisos crujientes, puertas atascadas, parches y reparaciones varias" },
-    pt: { name: "Reparos Gerais em Casa", desc: "Pisos rangendo, portas travadas, remendos e reparos em geral" },
+    id:'fencing', icon:'🔧',
+    en:{ name:'Fencing' },
+    es:{ name:'Cercas' },
+    pt:{ name:'Cercas' },
+    subs:[
+      { en:{name:'Fence board replacement',  ph:'How many boards? What type of wood/material?'},
+        es:{name:'Tablas de cerca',          ph:'¿Cuántas tablas? ¿Qué tipo de madera/material?'},
+        pt:{name:'Troca de tábuas de cerca', ph:'Quantas tábuas? Que tipo de madeira/material?'} },
+      { en:{name:'Post repair / replacement', ph:'How many posts? Concrete footings needed?'},
+        es:{name:'Reparación de postes',     ph:'¿Cuántos postes? ¿Necesita bases de concreto?'},
+        pt:{name:'Reparo de mourões',        ph:'Quantos mourões? Precisa de bases de concreto?'} },
+      { en:{name:'Gate repair / installation', ph:'What type of gate? (wood, chain-link, etc.)'},
+        es:{name:'Reparación / instalación de portón', ph:'¿Qué tipo de portón?'},
+        pt:{name:'Reparo / instalação de portão', ph:'Que tipo de portão?'} },
+    ]
   },
 ];
 
-// ─────────────────────────────────────────────
+// ═══════════════════════════════════════════
 // STATE
-// ─────────────────────────────────────────────
+// ═══════════════════════════════════════════
 let currentLang = 'en';
-let selected = new Set();
+let openCatId = null;
+// selections: { catId: { subIdx: { checked: bool, note: '' } } }
+const selections = {};
 
-// ─────────────────────────────────────────────
-// RENDER SERVICES
-// ─────────────────────────────────────────────
-function renderServices() {
-  const grid = document.getElementById('servicesGrid');
+// ═══════════════════════════════════════════
+// RENDER CATEGORY GRID
+// ═══════════════════════════════════════════
+function renderCatGrid() {
+  const grid = document.getElementById('catGrid');
   grid.innerHTML = '';
-  services.forEach((svc, idx) => {
-    const s = svc[currentLang];
-    const isSelected = selected.has(idx);
-    const card = document.createElement('div');
-    card.className = 'service-card' + (isSelected ? ' selected' : '');
-    card.innerHTML = `
-      <div class="check">${isSelected ? '✓' : ''}</div>
-      <div class="service-icon">${svc.icon}</div>
-      <div class="service-info">
-        <h3>${s.name}</h3>
-        <p>${s.desc}</p>
-      </div>
+  categories.forEach(cat => {
+    const count = countSelected(cat.id);
+    const isOpen = openCatId === cat.id;
+    const btn = document.createElement('div');
+    btn.className = 'cat-btn' + (isOpen ? ' open' : '') + (count > 0 ? ' has-selection' : '');
+    btn.setAttribute('data-count', count);
+    btn.innerHTML = `
+      <div class="cat-icon">${cat.icon}</div>
+      <div class="cat-name">${cat[currentLang].name}</div>
+      <div class="cat-arrow">▼</div>
     `;
-    card.addEventListener('click', () => toggleService(idx));
-    grid.appendChild(card);
+    btn.addEventListener('click', () => toggleCat(cat.id));
+    grid.appendChild(btn);
   });
 }
 
-function toggleService(idx) {
-  if (selected.has(idx)) {
-    selected.delete(idx);
-  } else {
-    selected.add(idx);
-  }
-  renderServices();
-  updateSelectedList();
-  updatePreview();
+function countSelected(catId) {
+  if (!selections[catId]) return 0;
+  return Object.values(selections[catId]).filter(v => v.checked).length;
 }
 
-function updateSelectedList() {
-  const el = document.getElementById('selectedList');
-  if (selected.size === 0) {
-    el.innerHTML = `<span>${T[currentLang].noServices}</span>`;
-    return;
-  }
+// ═══════════════════════════════════════════
+// TOGGLE CATEGORY PANEL
+// ═══════════════════════════════════════════
+function toggleCat(catId) {
+  openCatId = openCatId === catId ? null : catId;
+  renderCatGrid();
+  renderPanel();
+}
+
+function renderPanel() {
+  const wrap = document.getElementById('panelWrap');
+  wrap.innerHTML = '';
+  if (!openCatId) return;
+
+  const cat = categories.find(c => c.id === openCatId);
+  if (!cat) return;
+
+  const panel = document.createElement('div');
+  panel.className = 'cat-panel open';
+
+  // Header
+  panel.innerHTML = `
+    <div class="panel-header">
+      <span class="ph-icon">${cat.icon}</span>
+      <h3>${cat[currentLang].name}</h3>
+    </div>
+    <div class="sub-list" id="subList_${cat.id}"></div>
+  `;
+  wrap.appendChild(panel);
+
+  // Scroll into view smoothly
+  setTimeout(() => panel.scrollIntoView({ behavior:'smooth', block:'nearest' }), 50);
+
+  renderSubcategories(cat);
+}
+
+// ═══════════════════════════════════════════
+// RENDER SUBCATEGORIES
+// ═══════════════════════════════════════════
+function renderSubcategories(cat) {
+  const list = document.getElementById(`subList_${cat.id}`);
+  if (!list) return;
+  list.innerHTML = '';
+
+  if (!selections[cat.id]) selections[cat.id] = {};
+
+  cat.subs.forEach((sub, idx) => {
+    const sel = selections[cat.id][idx] || { checked: false, note: '' };
+    selections[cat.id][idx] = sel;
+
+    const item = document.createElement('div');
+    item.className = 'sub-item';
+
+    const row = document.createElement('div');
+    row.className = 'sub-row' + (sel.checked ? ' checked' : '');
+    row.innerHTML = `
+      <div class="sub-check">${sel.checked ? '✓' : ''}</div>
+      <div class="sub-label">${sub[currentLang].name}</div>
+    `;
+    row.addEventListener('click', () => {
+      sel.checked = !sel.checked;
+      if (!sel.checked) sel.note = '';
+      renderSubcategories(cat);
+      renderCatGrid();
+      updateSummary();
+      updatePreview();
+    });
+
+    const noteWrap = document.createElement('div');
+    noteWrap.className = 'sub-note-wrap' + (sel.checked ? ' show' : '');
+    noteWrap.innerHTML = `
+      <div class="note-label">${T[currentLang].noteLabelText}</div>
+      <textarea placeholder="${sub[currentLang].ph}">${sel.note}</textarea>
+    `;
+    const ta = noteWrap.querySelector('textarea');
+    ta.addEventListener('input', () => {
+      sel.note = ta.value;
+      updatePreview();
+    });
+
+    item.appendChild(row);
+    item.appendChild(noteWrap);
+    list.appendChild(item);
+  });
+}
+
+// ═══════════════════════════════════════════
+// SUMMARY BOX (Step 1)
+// ═══════════════════════════════════════════
+function updateSummary() {
+  const box = document.getElementById('summaryBox');
+  let hasAny = false;
   let html = '';
-  selected.forEach(idx => {
-    html += `<span class="service-tag">${services[idx].icon} ${services[idx][currentLang].name}</span>`;
+
+  categories.forEach(cat => {
+    const catSels = selections[cat.id];
+    if (!catSels) return;
+    const checked = Object.entries(catSels).filter(([,v]) => v.checked);
+    if (checked.length === 0) return;
+    hasAny = true;
+    html += `<span class="sum-cat">${cat.icon} ${cat[currentLang].name}</span>`;
+    checked.forEach(([idx, v]) => {
+      const sub = cat.subs[idx];
+      html += `<span class="sum-sub">• ${sub[currentLang].name}</span>`;
+      if (v.note.trim()) {
+        html += `<span class="sum-note">"${v.note.trim()}"</span>`;
+      }
+    });
   });
-  el.innerHTML = html;
+
+  box.innerHTML = hasAny ? html : `<span data-i18n="noServices">${T[currentLang].noServices}</span>`;
 }
 
-// ─────────────────────────────────────────────
-// PREVIEW & WHATSAPP
-// ─────────────────────────────────────────────
+// ═══════════════════════════════════════════
+// WHATSAPP MESSAGE BUILD
+// ═══════════════════════════════════════════
 function buildMessage() {
   const t = T[currentLang];
-  const name = document.getElementById('clientName').value.trim();
+  const name  = document.getElementById('clientName').value.trim();
   const phone = document.getElementById('clientPhone').value.trim();
-  const desc = document.getElementById('jobDesc').value.trim();
-  const date = document.getElementById('prefDate').value;
-  const time = document.getElementById('prefTime').value;
-  const address = document.getElementById('address').value.trim();
+  const desc  = document.getElementById('jobDesc').value.trim();
+  const date  = document.getElementById('prefDate').value;
+  const time  = document.getElementById('prefTime').value;
+  const addr  = document.getElementById('address').value.trim();
 
-  let serviceList = '';
-  selected.forEach(idx => {
-    serviceList += `  • ${services[idx][currentLang].name}\n`;
+  let msg = `${t.waIntro}\n`;
+
+  categories.forEach(cat => {
+    const catSels = selections[cat.id];
+    if (!catSels) return;
+    const checked = Object.entries(catSels).filter(([,v]) => v.checked);
+    if (checked.length === 0) return;
+    msg += `\n${cat.icon} ${cat[currentLang].name.toUpperCase()}\n`;
+    checked.forEach(([idx, v]) => {
+      const sub = cat.subs[idx];
+      msg += `  ✓ ${sub[currentLang].name}\n`;
+      if (v.note.trim()) msg += `    "${v.note.trim()}"\n`;
+    });
   });
 
-  let msg = `${t.waIntro}\n\n`;
-  msg += `${t.waServices}:\n${serviceList || '  (none)\n'}`;
-  if (desc) msg += `\n${t.waDesc}:\n  ${desc}\n`;
-  if (date || time) msg += `\n${t.waDate}: ${date || '—'} ${time || ''}\n`;
-  if (address) msg += `\n${t.waAddress}: ${address}\n`;
-  msg += `\n${t.waContact}:\n`;
-  msg += `  ${t.waName}: ${name || '—'}\n`;
-  msg += `  ${t.waPhone}: ${phone || '—'}`;
+  if (desc) msg += `\n${t.waExtra}:\n  ${desc}\n`;
+  if (date || time) msg += `\n${t.waDate}: ${date||'—'} ${time||''}\n`;
+  if (addr) msg += `${t.waAddress}: ${addr}\n`;
+  msg += `\n${t.waContact}:\n  ${t.waName}: ${name||'—'}\n  ${t.waPhone}: ${phone||'—'}`;
   return msg;
 }
 
@@ -703,25 +1017,22 @@ function updatePreview() {
 
 function sendWA(e) {
   e.preventDefault();
-  const msg = buildMessage();
-  const encoded = encodeURIComponent(msg);
-  const url = `https://wa.me/17735762195?text=${encoded}`;
-  window.open(url, '_blank');
+  window.open(`https://wa.me/17735762195?text=${encodeURIComponent(buildMessage())}`, '_blank');
   return false;
 }
 
-// ─────────────────────────────────────────────
+// ═══════════════════════════════════════════
 // I18N
-// ─────────────────────────────────────────────
+// ═══════════════════════════════════════════
 function applyTranslations() {
   const t = T[currentLang];
   document.querySelectorAll('[data-i18n]').forEach(el => {
-    const key = el.getAttribute('data-i18n');
-    if (t[key] !== undefined) el.textContent = t[key];
+    const k = el.getAttribute('data-i18n');
+    if (t[k] !== undefined) el.textContent = t[k];
   });
   document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-    const key = el.getAttribute('data-i18n-placeholder');
-    if (t[key] !== undefined) el.placeholder = t[key];
+    const k = el.getAttribute('data-i18n-placeholder');
+    if (t[k] !== undefined) el.placeholder = t[k];
   });
 }
 
@@ -731,22 +1042,39 @@ function setLang(lang) {
     btn.classList.toggle('active', ['en','es','pt'][i] === lang);
   });
   applyTranslations();
-  renderServices();
-  updateSelectedList();
+  renderCatGrid();
+  if (openCatId) renderPanel();
+  updateSummary();
   updatePreview();
 }
 
-// ─────────────────────────────────────────────
-// LIVE PREVIEW UPDATE
-// ─────────────────────────────────────────────
+// ═══════════════════════════════════════════
+// LIVE PREVIEW LISTENERS
+// ═══════════════════════════════════════════
 ['jobDesc','clientName','clientPhone','prefDate','prefTime','address'].forEach(id => {
   document.getElementById(id).addEventListener('input', updatePreview);
 });
 
-// ─────────────────────────────────────────────
+// ═══════════════════════════════════════════
 // INIT
-// ─────────────────────────────────────────────
+// ═══════════════════════════════════════════
 setLang('en');
+
+// ═══════════════════════════════════════════
+// SERVICE WORKER
+// ═══════════════════════════════════════════
+if ('serviceWorker' in navigator) {
+  const isPreview = location.hostname.includes('claudeusercontent.com') ||
+                    location.hostname === 'localhost' ||
+                    location.protocol === 'blob:';
+  if (!isPreview) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js')
+        .then(() => console.log('SW registered ✓'))
+        .catch(err => console.warn('SW error:', err));
+    });
+  }
+}
 </script>
 </body>
 </html>
